@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `my_ecommerce` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `my_ecommerce`;
 -- MySQL dump 10.13  Distrib 8.0.36, for macos14 (arm64)
 --
 -- Host: 127.0.0.1    Database: my_ecommerce
@@ -28,7 +26,7 @@ CREATE TABLE `categories` (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +35,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Electronics'),(2,'Clothing'),(3,'Books');
+INSERT INTO `categories` VALUES (1,'Electronics'),(2,'Clothing'),(3,'Books'),(4,'Home Appliances');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +52,7 @@ CREATE TABLE `customers` (
   `last_name` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +61,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'John','Doe','john.doe@example.com'),(2,'Jane','Smith','jane.smith@example.com'),(3,'Bob','Johnson','bob.johnson@example.com'),(4,'Alice','Brown','alice.brown@example.com'),(5,'Chris','Miller','chris.miller@example.com');
+INSERT INTO `customers` VALUES (1,'John','Doe','john.doe@example.com'),(2,'Jane','Smith','jane.smith@example.com'),(3,'Bob','Johnson','bob.johnson@example.com'),(4,'Alice','Brown','alice.brown@example.com'),(5,'Chris','Miller','chris.miller@example.com'),(6,'Alex','Johnson','alex.johnson@example.com');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +146,7 @@ CREATE TABLE `products` (
   KEY `fk_category` (`category_id`),
   CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `chk_stock_positive` CHECK ((`stock_available` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,9 +155,18 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Smartphone A1','Budget smartphone',199.99,1,'2025-01-16 18:02:06',50),(2,'Smartphone B2','Mid-range smartphone',299.99,1,'2025-01-16 18:02:06',50),(3,'Smartphone C3','Premium smartphone',999.99,1,'2025-01-16 18:02:06',50),(4,'Wireless Earbuds','Noise-canceling earbuds',49.99,1,'2025-01-16 18:02:06',50),(5,'Laptop Basic','Entry-level laptop',399.99,1,'2025-01-16 18:02:06',50),(6,'Gaming Laptop','High-performance gaming laptop',1299.99,1,'2025-01-16 18:02:06',50),(7,'4K TV','Ultra HD television',799.99,1,'2025-01-16 18:02:06',50),(8,'Bluetooth Speaker','Portable speaker',59.99,1,'2025-01-16 18:02:06',50),(9,'USB-C Charger','Fast charging adapter',19.99,1,'2025-01-16 18:02:06',50),(10,'T-Shirt S','Basic small T-shirt',9.99,2,'2025-01-16 18:02:06',50),(11,'T-Shirt L','Basic large T-shirt',11.99,2,'2025-01-16 18:02:06',50),(12,'Jeans Skinny','Skinny jeans style',39.99,2,'2025-01-16 18:02:06',50),(13,'Jeans Regular','Regular fit jeans',45.99,2,'2025-01-16 18:02:06',50),(14,'Summer Dress','Lightweight summer dress',29.99,2,'2025-01-16 18:02:06',50),(15,'Hoodie','Warm hoodie',49.99,2,'2025-01-16 18:02:06',50),(16,'Jacket','Winter jacket',89.99,2,'2025-01-16 18:02:06',50),(17,'Socks (5-pack)','Cotton socks, pack of 5',14.99,2,'2025-01-16 18:02:06',50),(18,'Mystery Novel','A thrilling mystery book',12.50,3,'2025-01-16 18:02:06',50),(19,'Romance Novel','A heartwarming romance story',14.99,3,'2025-01-16 18:02:06',50),(20,'Science Fiction Novel','Futuristic space adventure',16.99,3,'2025-01-16 18:02:06',50),(21,'Cookbook','Delicious recipes for beginners',19.99,3,'2025-01-16 18:02:06',50),(22,'Self-Help Book','Personal growth and productivity',21.50,3,'2025-01-16 18:02:06',50),(23,'Children Book A','Illustrated children story',8.99,3,'2025-01-16 18:02:06',50),(24,'Children Book B','Educational children story',7.99,3,'2025-01-16 18:02:06',50);
+INSERT INTO `products` VALUES (1,'Smartphone A1','Budget smartphone',199.99,1,'2025-01-16 18:02:06',150),(2,'Smartphone B2','Mid-range smartphone',299.99,1,'2025-01-16 18:02:06',0),(3,'Smartphone C3','Premium smartphone',999.99,1,'2025-01-16 18:02:06',0),(4,'Wireless Earbuds','Noise-canceling earbuds',49.99,1,'2025-01-16 18:02:06',50),(5,'Laptop Basic','Entry-level laptop',399.99,1,'2025-01-16 18:02:06',0),(6,'Gaming Laptop','High-performance gaming laptop',1299.99,1,'2025-01-16 18:02:06',0),(7,'4K TV','Ultra HD television',799.99,1,'2025-01-16 18:02:06',0),(8,'Bluetooth Speaker','Portable speaker',59.99,1,'2025-01-16 18:02:06',50),(9,'USB-C Charger','Fast charging adapter',19.99,1,'2025-01-16 18:02:06',50),(10,'T-Shirt S','Basic small T-shirt',9.99,2,'2025-01-16 18:02:06',50),(11,'T-Shirt L','Basic large T-shirt',11.99,2,'2025-01-16 18:02:06',50),(12,'Jeans Skinny','Skinny jeans style',39.99,2,'2025-01-16 18:02:06',50),(13,'Jeans Regular','Regular fit jeans',45.99,2,'2025-01-16 18:02:06',50),(14,'Summer Dress','Lightweight summer dress',29.99,2,'2025-01-16 18:02:06',50),(15,'Hoodie','Warm hoodie',49.99,2,'2025-01-16 18:02:06',50),(16,'Jacket','Winter jacket',89.99,2,'2025-01-16 18:02:06',50),(17,'Socks (5-pack)','Cotton socks, pack of 5',14.99,2,'2025-01-16 18:02:06',50),(18,'Mystery Novel','A thrilling mystery book',12.50,3,'2025-01-16 18:02:06',50),(19,'Romance Novel','A heartwarming romance story',14.99,3,'2025-01-16 18:02:06',50),(20,'Science Fiction Novel','Futuristic space adventure',16.99,3,'2025-01-16 18:02:06',50),(21,'Cookbook','Delicious recipes for beginners',19.99,3,'2025-01-16 18:02:06',50),(22,'Self-Help Book','Personal growth and productivity',21.50,3,'2025-01-16 18:02:06',50),(23,'Children Book A','Illustrated children story',8.99,3,'2025-01-16 18:02:06',50),(24,'Children Book B','Educational children story',7.99,3,'2025-01-16 18:02:06',50),(25,'Wireless Headphones',NULL,120.00,1,'2025-01-17 16:18:46',50),(26,'Wireless Headphones 2',NULL,120.00,1,'2025-01-17 16:19:36',50),(27,'Wireless Headphones','These phones are for your head!',120.00,1,'2025-01-17 16:21:13',150),(28,'Wireless Headphones 2','These phones are for your head!',120.00,1,'2025-01-17 16:21:13',50),(29,'Smart Microwave','A microwave with smart features.',199.99,4,'2025-01-17 20:50:37',0);
+update products set created_at = '2024-01-01' where product_id > 0;
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'my_ecommerce'
+--
+
+--
+-- Dumping routines for database 'my_ecommerce'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -170,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-17 15:31:31
+-- Dump completed on 2025-01-20 19:14:03
