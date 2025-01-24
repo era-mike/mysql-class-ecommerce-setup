@@ -165,7 +165,7 @@ UNLOCK TABLES;
 --
 
 --
--- Dumping routines for database 'my_ecommerce'
+-- Dumping routines for database 'my_ecommerce'---
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

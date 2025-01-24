@@ -149,9 +149,9 @@ To address these issues, break the table into two smaller tables that eliminate 
 1. **Order Table** (Stores details about orders):
    | OrderID | ProductID | CustomerName |
    |---------|-----------|--------------|
-   | 1       | 101       | Alice        |
-   | 2       | 102       | Bob          |
-   | 3       | 101       | Charlie      |
+   | 1       | 101       | 201          |
+   | 2       | 102       | 202          |
+   | 3       | 101       | 203          |
 
 2. **Product Table** (Stores details about products):
    | ProductID | ProductName |
@@ -160,11 +160,11 @@ To address these issues, break the table into two smaller tables that eliminate 
    | 102       | Mouse       |
 
 3. **Customer Table** (Stores details about customers):
-   | CustomerName | CustomerAddress |
-   |--------------|-----------------|
-   | Alice        | 123 Elm St.    |
-   | Bob          | 456 Oak St.    |
-   | Charlie      | 789 Pine St.   |
+   | CustomerId | CustomerName | CustomerAddress |
+   |--------------|--------------|----------------|
+   | 201          | Alice        | 123 Elm St.    |
+   | 202          | Bob          | 456 Oak St.    |
+   | 203          | Charlie      | 789 Pine St.   |
 
 ---
 
