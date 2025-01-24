@@ -147,7 +147,7 @@ Suppose we have a table capturing orders and products as follows:
 To address these issues, break the table into two smaller tables that eliminate partial dependencies:
 
 1. **Order Table** (Stores details about orders):
-   | OrderID | ProductID | CustomerName |
+   | OrderID | ProductID | CustomerId   |
    |---------|-----------|--------------|
    | 1       | 101       | 201          |
    | 2       | 102       | 202          |
