@@ -130,13 +130,13 @@ create table songs (
 | 3       | The Wall             | 3        | 1979-11-30   |
 
 **Songs:**
-| SongID | Song_Name         | AlbumID | Duration |
-|--------|-------------------|---------|----------|
-| 1      | Come Together     | 1       | 4        |
-| 2      | Something         | 1       | 3        |
-| 3      | Bohemian Rhapsody | 2       | 6        |
-| 4      | Comfortably Numb  | 3       | 7        |
-| 5      | Hey You           | 3       | 5        |
+| SongID | Song_Name         | AlbumID | Album Duration |
+|--------|-------------------|---------|----------------|
+| 1      | Come Together     | 1       | 47             |
+| 2      | Something         | 1       | 47             |
+| 3      | Bohemian Rhapsody | 2       | 43             |
+| 4      | Comfortably Numb  | 3       | 81             |
+| 5      | Hey You           | 3       | 81             |
 
 ---
 
@@ -155,22 +155,123 @@ create table songs (
    - **Still Complex for Aggregates:** Requires joins to calculate total durations.
 
 ---
-
-### **Step 4: Normalize to 3NF**
-**3NF Design:** Further eliminate transitive dependencies by separating derived data (e.g., durations).
-
-**Tables:**
-- Same as 2NF; no transitive dependencies exist in this scenario.
+There’s a **transitive dependency** in the **Songs** table, where the `Album Duration` is dependent on the `AlbumID` rather than directly on the `SongID`. This violates **3NF**, even though the table is in **2NF**. Let’s demonstrate how to fix this and ensure the table adheres to **3NF**.
 
 ---
 
-**Final Task:**
-1. Perform all CRUD operations, aggregates, and subqueries on the fully normalized schema.
-2. Compare ease of use and efficiency between the non-normalized, 1NF, 2NF, and 3NF datasets.
+### **Data in 2NF**
+
+#### **1. Artists Table**
+| ArtistID | Artist_Name   |
+|----------|---------------|
+| 1        | The Beatles   |
+| 2        | Queen         |
+| 3        | Pink Floyd    |
+
+#### **2. Albums Table**
+| AlbumID | Album_Name           | ArtistID | Release_Date |
+|---------|-----------------------|----------|--------------|
+| 1       | Abbey Road           | 1        | 1969-09-26   |
+| 2       | A Night at the Opera | 2        | 1975-11-21   |
+| 3       | The Wall             | 3        | 1979-11-30   |
+
+#### **3. Songs Table**
+| SongID | Song_Name         | AlbumID | Album Duration |
+|--------|-------------------|---------|----------------|
+| 1      | Come Together     | 1       | 47             |
+| 2      | Something         | 1       | 47             |
+| 3      | Bohemian Rhapsody | 2       | 43             |
+| 4      | Comfortably Numb  | 3       | 81             |
+| 5      | Hey You           | 3       | 81             |
 
 ---
 
-### **Discussion Points**
-- How normalization improved data management and reduced redundancy.
-- The trade-offs: Complexity of joins in normalized schemas vs. simplicity of denormalized ones.
-- Importance of choosing the right level of normalization for practical applications.
+### **Issues with 2NF Data**
+1. **Transitive Dependency**:
+   - The `Album Duration` depends on the `AlbumID`, not the `SongID`. This means `Album Duration` is not functionally dependent on the primary key of the table (`SongID`).
+   - If the duration of an album changes, it must be updated for all songs in that album, leading to redundancy and inconsistency risks.
+
+2. **Update Anomalies**:
+   - Changing the duration of "Abbey Road" requires updating multiple rows.
+
+3. **Insert Anomalies**:
+   - Inserting a new album requires adding a placeholder song to record its duration.
+
+4. **Delete Anomalies**:
+   - Deleting all songs for an album would lose the album’s duration.
+
+---
+
+### **Data in 3NF**
+
+To fix this, we remove the transitive dependency by creating a new table for album durations. This ensures that each piece of data is stored only once and is fully dependent on its primary key.
+
+#### **1. Artists Table**
+| ArtistID | Artist_Name   |
+|----------|---------------|
+| 1        | The Beatles   |
+| 2        | Queen         |
+| 3        | Pink Floyd    |
+
+#### **2. Albums Table**
+| AlbumID | Album_Name           | ArtistID | Release_Date | Album_Duration |
+|---------|-----------------------|----------|--------------|----------------|
+| 1       | Abbey Road           | 1        | 1969-09-26   | 47             |
+| 2       | A Night at the Opera | 2        | 1975-11-21   | 43             |
+| 3       | The Wall             | 3        | 1979-11-30   | 81             |
+
+#### **3. Songs Table**
+| SongID | Song_Name         | AlbumID |
+|--------|-------------------|---------|
+| 1      | Come Together     | 1       |
+| 2      | Something         | 1       |
+| 3      | Bohemian Rhapsody | 2       |
+| 4      | Comfortably Numb  | 3       |
+| 5      | Hey You           | 3       |
+
+---
+
+### **Benefits of 3NF**
+1. **No Redundancy**:
+   - The `Album Duration` is stored only once in the `Albums` table, eliminating duplication in the `Songs` table.
+
+2. **Update Efficiency**:
+   - Changing the duration of an album requires updating only one row in the `Albums` table.
+
+3. **Data Integrity**:
+   - There’s no risk of inconsistent data for album durations across multiple rows.
+
+4. **CRUD Operations**:
+   - Operations are streamlined and maintain consistency across related data.
+
+---
+
+### **SQL Queries Demonstrating the Difference**
+
+#### Query to Update Album Duration in 2NF:
+```sql
+update songs
+set album_duration = 50
+where albumid = 1;
+-- Must update all rows for AlbumID = 1.
+```
+
+#### Query to Update Album Duration in 3NF:
+```sql
+update albums
+set album_duration = 50
+where albumid = 1;
+-- Only one row needs to be updated.
+```
+
+#### Query to Retrieve Songs with Album Durations in 3NF:
+```sql
+select s.song_name, a.album_name, a.album_duration
+from songs s
+join albums a on s.albumid = a.albumid;
+```
+
+---
+
+### **Conclusion**
+By restructuring the schema into **3NF**, we eliminate the transitive dependency of `Album Duration` on `AlbumID`. This not only reduces redundancy but also ensures data consistency and makes the database more efficient to manage. The key distinction between **2NF** and **3NF** lies in resolving transitive dependencies, as demonstrated with the `Album Duration` attribute.
