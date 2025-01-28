@@ -264,22 +264,38 @@ Below are the SQL statements to create the users and assign the appropriate priv
 -- Create db_admin with full privileges
 CREATE USER 'db_admin'@'localhost' IDENTIFIED BY 'adminpassword';
 GRANT ALL PRIVILEGES ON school_system.* TO 'db_admin'@'localhost';
+-- adds schools
 
 -- Create school_staff with SELECT and UPDATE privileges on the address column in schools table
 CREATE USER 'school_staff'@'localhost' IDENTIFIED BY 'staffpassword';
 GRANT SELECT, UPDATE(address) ON school_system.schools TO 'school_staff'@'localhost';
 
+-- school_staff can make new teachers
+GRANT ALL PRIVILEGES ON school_system.teachers TO 'school_staff'@'localhost';
+
+-- makes new classes?
+GRANT ALL PRIVILEGES ON school_system.classes TO 'school_staff'@'localhost';
+
+-- makes new stduent and puts students in classes?
+GRANT ALL PRIVILEGES ON school_system.students TO 'school_staff'@'localhost';
+GRANT ALL PRIVILEGES ON school_system.classes_students TO 'school_staff'@'localhost';
+
+
 -- Create teacher with SELECT and UPDATE privileges on teachers table, and SELECT on classes and class_students tables
 CREATE USER 'teacher'@'localhost' IDENTIFIED BY 'teacherpassword';
-GRANT SELECT, UPDATE ON school_system.teachers TO 'teacher'@'localhost';
-GRANT SELECT ON school_system.classes TO 'teacher'@'localhost';
-GRANT SELECT ON school_system.class_students TO 'teacher'@'localhost';
+GRANT SELECT ON school_system.teachers TO 'teacher'@'localhost'; 
+GRANT UPDATE(teacher_name) ON school_system.teachers TO 'teacher'@'localhost';  ## ***** NO ROW-LEVEL PROTECTIONS
+GRANT SELECT ON school_system.classes TO 'teacher'@'localhost'; ## see all classes
+GRANT SELECT ON school_system.students TO 'teacher'@'localhost'; ## see all students
+GRANT SELECT ON school_system.class_students TO 'teacher'@'localhost'; ## see which students are in which classes
+
 
 -- Create student with SELECT and UPDATE privileges on students table, and SELECT on classes and class_students tables
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'studentpassword';
-GRANT SELECT, UPDATE ON school_system.students TO 'student'@'localhost';
+GRANT SELECT ON school_system.students TO 'student'@'localhost'; ## really need full access to students table?
+GRANT UPDATE(student_name) ON school_system.students TO 'student'@'localhost';  ## can update their name ***** NO ROW-LEVEL PROTECTIONS
 GRANT SELECT ON school_system.classes TO 'student'@'localhost';
-GRANT SELECT ON school_system.class_students TO 'student'@'localhost';
+```
 
 -- 2. Apply Privilege Changes
 FLUSH PRIVILEGES;
