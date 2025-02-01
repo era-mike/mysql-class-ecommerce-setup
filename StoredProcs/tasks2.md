@@ -5,6 +5,23 @@
    - Use a simple `SELECT` statement with a `WHERE` clause filtering on `emp_no`.  
    - Test the procedure by calling it with a known `emp_no`.
 
+   ```sql
+    delimiter $$
+
+    create procedure sp_get_employee_by_emp_no(
+    in p_emp_no int
+    )
+    begin
+    select emp_no, first_name, last_name, gender, hire_date
+    from employees
+    where emp_no = p_emp_no;
+    end$$
+
+    delimiter ;
+
+    call sp_get_employee_by_emp_no(10003);
+```
+
 2. **Procedure with Multiple Parameters and Joins**  
    *Task:*  
    Create a stored procedure named `sp_get_employees_by_department` that takes a department number (`dept_no`) as input and returns a list of employees working in that department. Join the `dept_emp` table with the `employees` table to retrieve employee details.  
