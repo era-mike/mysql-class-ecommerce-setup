@@ -191,7 +191,6 @@ insert into service_types (service_name, description) values
 
 -- Insert sample maintenance records
 insert into maintenance_records (vehicle_id, service_id, service_date, mileage_at_service, notes) values
-insert into maintenance_records (vehicle_id, service_id, service_date, mileage_at_service, notes) values
 (1, 1, '2024-01-10', 30000, 'Synthetic oil used'),
 (1, 2, '2024-01-15', 32000, 'Rotated all tires, balanced wheels'),
 (2, 3, '2024-02-05', 14000, 'Brake pads replaced'),
@@ -221,7 +220,6 @@ insert into maintenance_records (vehicle_id, service_id, service_date, mileage_a
 
 
 -- Insert scheduled maintenance
-insert into maintenance_schedule (vehicle_id, service_id, due_mileage, status) values
 insert into maintenance_schedule (vehicle_id, service_id, due_mileage, status) values
 (1, 1, 40000, 'pending'),
 (2, 2, 20000, 'pending'),
