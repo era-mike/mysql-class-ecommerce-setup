@@ -58,6 +58,24 @@ INNER JOIN categories c ON a.category_id = c.id;
 
 ---
 
+## Exercise 3.1 – INNER JOIN Between Tables
+
+**Task:**  
+Write a query to retrieve the influencer `name` along with its corresponding activity `name`. Use an INNER JOIN between `influencers` and `activities`.
+
+<details>
+  <summary>Solution</summary>
+
+```sql
+SELECT influencer_name, activity_name
+FROM influencers 
+INNER JOIN activities ON influencers.activity_id = activities.id;
+```
+
+</details>
+
+---
+
 ## Exercise 4 – LEFT JOIN Example
 
 **Task:**  
